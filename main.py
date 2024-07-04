@@ -55,7 +55,7 @@ csv = convert_df_to_csv(data)
 st.download_button(
     label="Tải về dữ liệu",
     data=csv,
-    file_name="data.csv",
+   	file_name=f"{selected_stock}.csv",
     mime="text/csv"
 )
 st.write(forecast)
