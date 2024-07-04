@@ -1,5 +1,4 @@
-import warnings
-warnings.filterwarnings('ignore', category=DeprecationWarning)
+
 import streamlit as st
 from datetime import date
 import yfinance as yf
@@ -15,8 +14,7 @@ selected_stock = st.selectbox('Chọn cặp tiền dự đoán', stocks)
 start_date = st.date_input('Chọn ngày bắt đầu', value=date(2018, 1, 1))
 TODAY = date.today().strftime("%Y-%m-%d")
 
-n_years = st.slider('Số năm dự đoán', 1, 4)
-period = n_years * 365
+
 
 @st.cache_data 
 def load_data(ticker, start_date, end_date):
@@ -30,6 +28,36 @@ data_load_state.text('Hoàn thành!')
 st.write(data.head())
 st.write(data.tail())
 
+df_train = data[['Date','Close']]
+df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
+df_train.head()
+
+n_years = st.slider('Số năm dự đoán', 1, 4)
+period = n_years * 365
+
+m = Prophet()
+m.fit(df_train)
+future = m.make_future_dataframe(periods=period)
+forecast = m.predict(future)
+
+st.header('Dự báo dữ liệu')
+@st.cache_data(ttl=24*60*60)  # cache for 24 hours
+def convert_df_to_csv(df):
+    return df.to_csv(index=False).encode('utf-8')
+
+csv = convert_df_to_csv(data)
+
+st.download_button(
+    label="Tải về dữ liệu",
+    data=csv,
+    file_name="data.csv",
+    mime="text/csv"
+)
+st.write(forecast)
+    
+st.subheader(f'Dự báo trong {n_years} năm')
+fig1 = plot_plotly(m, forecast)
+st.plotly_chart(fig1)
 
 def plot_raw_data():
     fig = go.Figure()
@@ -40,22 +68,6 @@ def plot_raw_data():
     
 plot_raw_data()
 
-df_train = data[['Date','Close']]
-df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
-df_train.head()
-
-m = Prophet()
-m.fit(df_train)
-future = m.make_future_dataframe(periods=period)
-forecast = m.predict(future)
-
-st.subheader('Dự báo dữ liệu')
-st.write(forecast.tail())
-    
-st.write(f'Dự báo trong {n_years} năm')
-fig1 = plot_plotly(m, forecast)
-st.plotly_chart(fig1)
-
-st.write("Các thành phần")
+st.subheader("Các thành phần")
 fig2 = m.plot_components(forecast)
 st.write(fig2)
