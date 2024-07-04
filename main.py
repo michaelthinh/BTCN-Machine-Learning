@@ -7,14 +7,19 @@ from prophet.plot import plot_plotly
 from plotly import graph_objs as go
 
 st.title('')
+st.header("Họ và tên: Mai Cường Thịnh")
+st.header("MSSV: 20120196")
 
+st.write("")
+st.subheader("Bài tập cá nhân phần ứng dụng Machine Learning")
+
+st.write("") 
 stocks = ('BTC-USD', 'ETH-USD','ADA-USD')
 selected_stock = st.selectbox('Chọn cặp tiền dự đoán', stocks)
 
+st.write("") 
 start_date = st.date_input('Chọn ngày bắt đầu', value=date(2018, 1, 1))
 TODAY = date.today().strftime("%Y-%m-%d")
-
-
 
 @st.cache_data 
 def load_data(ticker, start_date, end_date):
@@ -24,7 +29,7 @@ def load_data(ticker, start_date, end_date):
 
 data_load_state = st.text('Đang tải...')
 data = load_data(selected_stock, start_date, TODAY)
-data_load_state.text('Hoàn thành!')
+data_load_state.text('Đã tải dữ liệu xong!')
 st.write(data.head())
 st.write(data.tail())
 
@@ -40,7 +45,7 @@ m.fit(df_train)
 future = m.make_future_dataframe(periods=period)
 forecast = m.predict(future)
 
-st.header('Dự báo dữ liệu')
+st.subheader('Dự báo dữ liệu')
 @st.cache_data(ttl=24*60*60)  # cache for 24 hours
 def convert_df_to_csv(df):
     return df.to_csv(index=False).encode('utf-8')
