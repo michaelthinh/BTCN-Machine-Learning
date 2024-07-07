@@ -7,7 +7,7 @@ Yêu cầu : Quay lại video demo sản phẩm
 
 Link tutorial: **[Stock Price Prediction – Machine Learning Project in Python](https://data-flair.training/blogs/stock-price-prediction-machine-learning-project-in-python/?fbclid=IwZXh0bgNhZW0CMTAAAR3JxQ-kL9aQGy0H3YYxDR9ycwLAQQbXel8tuOU3Z6Xem0jsIMP57NKYHJU_aem_h_GpkN-OR84PUtb5JEytow)**
 
-**Cách cài đặt dự án**
+## Cách cài đặt dự án
 
 Bước 1: Clone dự án hoặc download dự án .zip và giải nén trên máy tính cục bộ
 
@@ -23,6 +23,6 @@ Mở file commands.ipynb và chạy cell **Install requirements**
 
 Bước 3: Chạy dự án thông qua file **main.py** bằng câu lệnh **python -m streamlit run main.py**
 
-**Video demo dự án**
+## Video demo dự án
 
-... Sẽ cập nhật sau
+**[[BTCN phần ứng dụng Machine Learning] - Các công nghệ mới trong phát triển phần mềm - CQ2020/3](https://www.youtube.com/watch?v=MXnwVqV0ALQ)**
